@@ -30,11 +30,7 @@
         --muted: #6b6756;
       }
 
-      * {
-        margin: 0;
-        padding: 0;
-        box-sizing: border-box;
-      }
+      * { margin: 0; padding: 0; box-sizing: border-box; }
 
       body {
         background: var(--bg);
@@ -48,6 +44,7 @@
         padding: 1.5rem 1rem;
       }
 
+      /* ─── Layout ─────────────────────────────────────────────── */
       .container {
         width: 100%;
         max-width: 440px;
@@ -56,7 +53,7 @@
         gap: 1rem;
       }
 
-      /* Header */
+      /* ─── Header ─────────────────────────────────────────────── */
       .header {
         display: flex;
         align-items: flex-start;
@@ -66,7 +63,7 @@
       }
 
       .logo {
-        font-size: 1.2rem;
+        font-size: 1.1rem;
         font-weight: 700;
         letter-spacing: -0.01em;
         color: var(--accent);
@@ -74,11 +71,9 @@
         align-items: center;
         gap: 7px;
       }
-      .logo i { font-size: 1rem; opacity: 0.85; }
-      .logo span {
-        color: var(--muted);
-        font-weight: 400;
-      }
+      .logo i { font-size: 0.9rem; opacity: 0.85; }
+      .logo-name { color: var(--accent); }
+      .logo-name span { color: var(--muted); font-weight: 400; }
 
       .sesi-info {
         display: flex;
@@ -87,30 +82,22 @@
         gap: 5px;
       }
       .sesi-label {
-        font-size: 0.72rem;
+        font-size: 0.66rem;
         color: var(--muted);
         letter-spacing: 0.03em;
       }
-      .sesi-label b {
-        color: var(--accent);
-      }
+      .sesi-label b { color: var(--accent); }
 
-      .sesi-dots {
-        display: flex;
-        gap: 4px;
-      }
+      .sesi-dots { display: flex; gap: 4px; }
       .dot-s {
-        width: 8px;
-        height: 8px;
+        width: 7px; height: 7px;
         border-radius: 2px;
         background: var(--subtle);
         transition: background 0.3s;
       }
-      .dot-s.done {
-        background: var(--accent);
-      }
+      .dot-s.done { background: var(--accent); }
 
-      /* Top row */
+      /* ─── Top row ─────────────────────────────────────────────── */
       .top-row {
         display: flex;
         align-items: center;
@@ -120,75 +107,66 @@
       .badge {
         display: inline-flex;
         align-items: center;
-        gap: 7px;
-        font-size: 0.72rem;
+        gap: 6px;
+        font-size: 0.66rem;
         font-weight: 600;
         letter-spacing: 0.1em;
         text-transform: uppercase;
-        padding: 0.3rem 0.75rem;
+        padding: 0.28rem 0.7rem;
         border-radius: 3px;
         border: 1px solid;
-        transition: all 0.3s;
+        transition: color 0.3s, background 0.3s, border-color 0.3s;
       }
-      .badge.kerja {
-        color: var(--accent);
-        border-color: var(--accent-mid);
-        background: var(--accent-dim);
-      }
-      .badge.mikro {
-        color: var(--rest);
-        border-color: rgba(116, 185, 255, 0.35);
-        background: var(--rest-dim);
-      }
-      .badge.istirahat {
-        color: var(--warn);
-        border-color: rgba(240, 160, 75, 0.35);
-        background: var(--warn-dim);
-      }
-      .badge i {
-        font-size: 0.65rem;
-        animation: blink 1.6s ease-in-out infinite;
-      }
-      @keyframes blink {
-        0%, 100% { opacity: 1; }
-        50%       { opacity: 0.3; }
-      }
+      .badge.kerja     { color: var(--accent); border-color: var(--accent-mid); background: var(--accent-dim); }
+      .badge.mikro     { color: var(--rest);   border-color: rgba(116,185,255,0.35); background: var(--rest-dim); }
+      .badge.istirahat { color: var(--warn);   border-color: rgba(240,160,75,0.35);  background: var(--warn-dim); animation: none; }
+      .badge i { font-size: 0.6rem; }
 
-      .interval-wrap {
-        display: flex;
-        align-items: center;
-        gap: 7px;
+      @keyframes kerja-pulse {
+        0%, 100% { box-shadow: 0 0 0 0 rgba(217,119,87,0.55); }
+        60%       { box-shadow: 0 0 0 6px rgba(217,119,87,0); }
       }
+      @keyframes mikro-pulse {
+        0%, 100% { box-shadow: 0 0 0 0 rgba(116,185,255,0.55); }
+        60%       { box-shadow: 0 0 0 6px rgba(116,185,255,0); }
+      }
+      .badge.kerja.running { animation: kerja-pulse 2s ease-out infinite; }
+      .badge.mikro.running { animation: mikro-pulse 2s ease-out infinite; }
+
+      .interval-wrap { display: flex; align-items: center; gap: 7px; }
       .interval-wrap label {
-        font-size: 0.72rem;
+        font-size: 0.66rem;
         color: var(--muted);
         display: flex;
         align-items: center;
         gap: 5px;
       }
-      .interval-wrap label i { font-size: 0.65rem; }
+      .interval-wrap label i { font-size: 0.6rem; }
       .interval-wrap select {
         font-family: "Inter", sans-serif;
-        font-size: 0.76rem;
+        font-size: 0.69rem;
         background: var(--surface);
         border: 1px solid var(--border);
         color: var(--text);
-        padding: 0.3rem 0.5rem;
+        padding: 0.28rem 0.45rem;
         border-radius: 3px;
         cursor: pointer;
         outline: none;
-        transition: border-color 0.2s;
+        transition: border-color 0.2s, opacity 0.2s, color 0.2s;
       }
-      .interval-wrap select:focus {
-        border-color: var(--accent);
+      .interval-wrap select:focus { border-color: var(--accent); }
+      .interval-wrap select:disabled {
+        opacity: 0.28;
+        color: var(--muted);
+        cursor: not-allowed;
       }
 
-      /* Timer card */
+      /* ─── Timer card ──────────────────────────────────────────── */
       .timer-card {
         background: var(--surface);
         border: 1px solid var(--border);
         border-radius: 6px;
-        padding: 1.6rem 1.5rem;
+        padding: 1.4rem 1.2rem;
         display: flex;
         flex-direction: column;
         align-items: center;
@@ -197,62 +175,44 @@
       }
       .timer-card::after {
         content: "";
-        position: absolute;
-        top: 0;
-        left: 0;
-        right: 0;
+        position: absolute; top: 0; left: 0; right: 0;
         height: 2px;
         background: var(--accent);
         transition: background 0.4s;
       }
-      .timer-card.mikro::after {
-        background: var(--rest);
-      }
-      .timer-card.istirahat::after {
-        background: var(--warn);
-      }
+      .timer-card.mikro::after     { background: var(--rest); }
+      .timer-card.istirahat::after { background: var(--warn); }
 
-      /* Ring */
+      /* ─── Ring ────────────────────────────────────────────────── */
       .ring-wrap {
         position: relative;
-        width: 150px;
-        height: 150px;
+        width: 150px; height: 150px;
+        flex-shrink: 0;
       }
+      /* SVG width/height diatur via CSS agar bisa di-override per breakpoint */
       .ring-wrap svg {
+        width: 150px; height: 150px;
         transform: rotate(-90deg);
       }
-      .ring-bg {
-        stroke: var(--subtle);
-      }
+      .ring-bg   { stroke: var(--subtle); }
       .ring-fill {
         stroke: var(--accent);
         stroke-linecap: round;
-        transition:
-          stroke-dashoffset 0.25s linear,
-          stroke 0.4s;
+        transition: stroke-dashoffset 0.25s linear, stroke 0.4s;
       }
-      .ring-fill.mikro {
-        stroke: var(--rest);
-      }
-      .ring-fill.istirahat {
-        stroke: var(--warn);
-      }
-      .ring-fill.urgent {
-        stroke: var(--danger);
-      }
+      .ring-fill.mikro     { stroke: var(--rest); }
+      .ring-fill.istirahat { stroke: var(--warn); }
+      .ring-fill.urgent    { stroke: var(--danger); }
 
       .ring-center {
-        position: absolute;
-        inset: 0;
-        display: flex;
-        flex-direction: column;
-        align-items: center;
-        justify-content: center;
+        position: absolute; inset: 0;
+        display: flex; flex-direction: column;
+        align-items: center; justify-content: center;
         gap: 3px;
         padding: 28px;
       }
       .ring-time {
-        font-size: 1.98rem;
+        font-size: 1.82rem;
         font-weight: 700;
         letter-spacing: -0.03em;
         color: var(--accent);
@@ -260,79 +220,66 @@
         text-align: center;
         transition: color 0.3s;
         width: 100%;
-        word-break: break-all;
+        white-space: nowrap; /* jangan dipecah antar karakter */
+        overflow: hidden;
       }
-      .ring-time.mikro {
-        color: var(--rest);
-      }
-      .ring-time.istirahat {
-        color: var(--warn);
-      }
-      .ring-time.urgent {
-        color: var(--danger);
-        animation: urgBlink 0.7s ease-in-out infinite;
-      }
-      @keyframes urgBlink {
-        0%, 100% { opacity: 1; }
-        50%       { opacity: 0.5; }
-      }
+      .ring-time.mikro     { color: var(--rest); }
+      .ring-time.istirahat { color: var(--warn); }
+      .ring-time.urgent    { color: var(--danger); animation: urgBlink 0.7s ease-in-out infinite; }
+      @keyframes urgBlink { 0%,100%{opacity:1} 50%{opacity:0.5} }
 
       .ring-sub {
-        font-size: 0.62rem;
+        font-size: 0.57rem;
         letter-spacing: 0.1em;
         text-transform: uppercase;
         color: var(--muted);
       }
 
-      /* Instruksi */
+      /* ─── Instruksi ───────────────────────────────────────────── */
       .instruksi {
         width: 100%;
         border-radius: 4px;
         border: 1px solid;
-        padding: 0.85rem 1rem;
-        font-size: 0.82rem;
+        padding: 0.75rem 0.9rem;
+        font-size: 0.75rem;
         line-height: 1.75;
         display: none;
-        margin-top: 1rem;
+        margin-top: 0.9rem;
       }
       .instruksi.mikro {
         display: block;
         color: var(--rest);
-        border-color: rgba(116, 185, 255, 0.3);
+        border-color: rgba(116,185,255,0.3);
         background: var(--rest-dim);
       }
       .instruksi.istirahat {
         display: block;
         color: var(--warn);
-        border-color: rgba(240, 160, 75, 0.3);
+        border-color: rgba(240,160,75,0.3);
         background: var(--warn-dim);
       }
       .instruksi .ins-judul {
-        font-size: 0.68rem;
+        font-size: 0.63rem;
         font-weight: 600;
         letter-spacing: 0.1em;
         text-transform: uppercase;
         opacity: 0.65;
-        margin-bottom: 7px;
-        display: flex;
-        align-items: center;
-        gap: 6px;
+        margin-bottom: 6px;
+        display: flex; align-items: center; gap: 6px;
       }
       .ins-line {
-        display: flex;
-        align-items: center;
-        gap: 9px;
-        padding: 1px 0;
+        display: flex; align-items: center;
+        gap: 8px; padding: 1px 0;
       }
       .ins-line i {
         flex-shrink: 0;
-        font-size: 0.78rem;
+        font-size: 0.7rem;
         opacity: 0.8;
-        width: 14px;
+        width: 13px;
         text-align: center;
       }
 
-      /* Kontrol */
+      /* ─── Kontrol ─────────────────────────────────────────────── */
       .controls {
         display: grid;
         grid-template-columns: 1fr 1fr;
@@ -340,154 +287,178 @@
       }
       .btn {
         font-family: "Inter", sans-serif;
-        font-size: 0.84rem;
+        font-size: 0.77rem;
         font-weight: 600;
         letter-spacing: 0.03em;
-        padding: 0.76rem 1rem;
+        padding: 0.7rem 1rem;
         border-radius: 4px;
         border: 1px solid;
         cursor: pointer;
         transition: all 0.15s;
-        display: flex;
-        align-items: center;
-        justify-content: center;
+        display: flex; align-items: center; justify-content: center;
         gap: 7px;
       }
-      .btn i { font-size: 0.78rem; }
-      .btn-utama {
-        background: var(--accent);
-        border-color: var(--accent);
-        color: #fff;
-      }
-      .btn-utama:hover {
-        opacity: 0.85;
-        transform: translateY(-1px);
-      }
-      .btn-sekunder {
-        background: transparent;
-        border-color: var(--border);
-        color: var(--muted);
-      }
-      .btn-sekunder:hover {
-        border-color: var(--muted);
-        color: var(--text);
-      }
+      .btn i { font-size: 0.7rem; }
+      .btn-utama  { background: var(--accent); border-color: var(--accent); color: #fff; }
+      .btn-utama:hover { opacity: 0.85; transform: translateY(-1px); }
+      .btn-sekunder { background: transparent; border-color: var(--border); color: var(--muted); }
+      .btn-sekunder:hover { border-color: var(--muted); color: var(--text); }
 
-      /* Statistik */
+      /* ─── Statistik ───────────────────────────────────────────── */
       .stats {
         display: grid;
-        grid-template-columns: repeat(3, 1fr);
+        grid-template-columns: repeat(3,1fr);
         gap: 0.6rem;
       }
       .stat {
         background: var(--surface);
         border: 1px solid var(--border);
         border-radius: 4px;
-        padding: 0.75rem 0.5rem;
+        padding: 0.7rem 0.5rem;
         text-align: center;
       }
       .stat-val {
-        font-size: 1.56rem;
+        font-size: 1.43rem;
         font-weight: 700;
         color: var(--text);
         letter-spacing: -0.02em;
       }
       .stat-lbl {
-        font-size: 0.64rem;
+        font-size: 0.58rem;
         font-weight: 500;
         letter-spacing: 0.08em;
         text-transform: uppercase;
         color: var(--muted);
-        margin-top: 4px;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        gap: 5px;
+        margin-top: 3px;
+        display: flex; align-items: center; justify-content: center; gap: 4px;
       }
-      .stat-lbl i { font-size: 0.6rem; opacity: 0.7; }
+      .stat-lbl i { font-size: 0.54rem; opacity: 0.7; }
 
-      /* Footer */
+      /* ─── Footer ──────────────────────────────────────────────── */
       footer {
         display: flex;
-        align-items: center;
-        justify-content: space-between;
+        flex-direction: column;
+        gap: 0.55rem;
         border-top: 1px solid var(--border);
         padding-top: 0.7rem;
-        font-size: 0.68rem;
+        font-size: 0.63rem;
         color: var(--muted);
       }
+      .footer-top { display: flex; align-items: center; justify-content: space-between; }
       footer .src {
-        text-align: right;
         opacity: 0.55;
-        font-size: 0.65rem;
-        display: flex;
-        align-items: center;
-        gap: 5px;
+        font-size: 0.59rem;
+        display: flex; align-items: center; gap: 5px;
       }
-      footer .src i { font-size: 0.6rem; }
+      footer .src i { font-size: 0.55rem; }
+      .footer-notif {
+        display: flex; align-items: center; justify-content: center;
+        gap: 6px;
+        font-size: 0.6rem;
+        color: var(--accent);
+        background: var(--accent-dim);
+        border: 1px solid var(--accent-mid);
+        border-radius: 4px;
+        padding: 0.45rem 0.7rem;
+        text-align: center;
+        cursor: pointer;
+        opacity: 0.85;
+        transition: opacity 0.2s;
+      }
+      .footer-notif:hover { opacity: 1; }
+      .footer-notif i { font-size: 0.58rem; flex-shrink: 0; }
+      .footer-notif.hidden { display: none; }
 
-      /* Toast */
+      /* ─── Toast ───────────────────────────────────────────────── */
       .toast {
         position: fixed;
-        top: 1.2rem;
-        right: 1.2rem;
+        top: 1.2rem; right: 1.2rem;
         background: var(--surface);
         border: 1px solid var(--accent-mid);
         border-radius: 5px;
-        padding: 0.85rem 1rem;
-        font-size: 0.8rem;
+        padding: 0.8rem 1rem;
+        font-size: 0.74rem;
         color: var(--accent);
-        max-width: 240px;
+        max-width: 230px;
         z-index: 999;
-        opacity: 0;
-        visibility: hidden;
-        transform: translateY(-8px);
-        transition:
-          opacity 0.25s ease,
-          transform 0.25s ease,
-          visibility 0.25s;
+        opacity: 0; visibility: hidden; transform: translateY(-8px);
+        transition: opacity 0.25s ease, transform 0.25s ease, visibility 0.25s;
         line-height: 1.5;
       }
-      .toast.show {
-        opacity: 1;
-        visibility: visible;
-        transform: translateY(0);
-      }
-      .toast.warn-t {
-        border-color: rgba(240, 160, 75, 0.4);
-        color: var(--warn);
-      }
-      .toast .t-judul {
-        font-weight: 700;
-        margin-bottom: 2px;
-      }
+      .toast.show { opacity: 1; visibility: visible; transform: translateY(0); }
+      .toast.warn-t { border-color: rgba(240,160,75,0.4); color: var(--warn); }
+      .toast .t-judul { font-weight: 700; margin-bottom: 2px; }
 
-      /* Mobile — font sizes ×1.1 of original (desktop is ×1.2) */
-      @media (max-width: 640px) {
-        .logo             { font-size: 1.1rem; }
-        .sesi-label       { font-size: 0.66rem; }
-        .badge            { font-size: 0.66rem; }
-        .interval-wrap label { font-size: 0.66rem; }
-        .interval-wrap select { font-size: 0.69rem; }
-        .ring-time        { font-size: 1.82rem; }
-        .ring-sub         { font-size: 0.57rem; }
-        .instruksi        { font-size: 0.75rem; }
-        .instruksi .ins-judul { font-size: 0.63rem; }
-        .btn              { font-size: 0.77rem; }
-        .stat-val         { font-size: 1.43rem; }
-        .stat-lbl         { font-size: 0.58rem; }
-        footer            { font-size: 0.63rem; }
-        footer .src       { font-size: 0.59rem; }
-        .toast            { font-size: 0.74rem; }
+      /* ═══════════════════════════════════════════════════════════
+         DESKTOP — min-width 641px
+         Semua elemen di-scale proporsional, ring diperbesar agar
+         teks timer tidak overflow/terpotong
+         ═══════════════════════════════════════════════════════════ */
+      @media (min-width: 641px) {
+        .container    { max-width: 520px; }
+
+        /* Header */
+        .logo         { font-size: 1.45rem; gap: 8px; }
+        .logo i       { font-size: 1.1rem; }
+        .sesi-label   { font-size: 0.87rem; }
+        .dot-s        { width: 9px; height: 9px; }
+
+        /* Badge + interval */
+        .badge        { font-size: 0.87rem; padding: 0.32rem 0.8rem; gap: 7px; }
+        .badge i      { font-size: 0.75rem; }
+        @keyframes kerja-pulse {
+          0%, 100% { box-shadow: 0 0 0 0 rgba(217,119,87,0.55); }
+          60%       { box-shadow: 0 0 0 8px rgba(217,119,87,0); }
+        }
+        @keyframes mikro-pulse {
+          0%, 100% { box-shadow: 0 0 0 0 rgba(116,185,255,0.55); }
+          60%       { box-shadow: 0 0 0 8px rgba(116,185,255,0); }
+        }
+        .interval-wrap label  { font-size: 0.87rem; }
+        .interval-wrap label i { font-size: 0.75rem; }
+        .interval-wrap select { font-size: 0.92rem; padding: 0.32rem 0.55rem; }
+
+        /* Timer card */
+        .timer-card   { padding: 1.8rem 1.6rem; }
+
+        /* Ring — diperbesar agar teks timer muat tanpa pecah */
+        .ring-wrap    { width: 200px; height: 200px; }
+        .ring-wrap svg { width: 200px; height: 200px; }
+        .ring-center  { padding: 36px; }
+        .ring-time    { font-size: 2rem; }
+        .ring-sub     { font-size: 0.72rem; }
+
+        /* Instruksi */
+        .instruksi    { font-size: 1rem; padding: 0.9rem 1.1rem; margin-top: 1.1rem; }
+        .instruksi .ins-judul { font-size: 0.82rem; }
+        .ins-line i   { font-size: 0.88rem; width: 16px; }
+
+        /* Kontrol */
+        .btn          { font-size: 1rem; padding: 0.8rem 1rem; }
+        .btn i        { font-size: 0.88rem; }
+
+        /* Statistik */
+        .stat-val     { font-size: 1.9rem; }
+        .stat-lbl     { font-size: 0.77rem; }
+        .stat-lbl i   { font-size: 0.68rem; }
+
+        /* Footer */
+        footer        { font-size: 0.82rem; }
+        footer .src   { font-size: 0.78rem; }
+        .footer-notif { font-size: 0.76rem; }
+
+        /* Toast */
+        .toast        { font-size: 0.96rem; max-width: 260px; }
       }
     </style>
   </head>
   <body>
     <div class="container">
+
       <!-- Header -->
       <div class="header">
         <div class="logo">
-          <i class="fa-solid fa-eye"></i>screen<span>timer</span>
+          <i class="fa-solid fa-eye"></i><span class="logo-name">screen<span>timer</span></span>
         </div>
         <div class="sesi-info">
           <div class="sesi-label">
@@ -522,8 +493,7 @@
           <svg width="150" height="150" viewBox="0 0 150 150">
             <circle class="ring-bg" cx="75" cy="75" r="64" fill="none" stroke-width="5" />
             <circle
-              class="ring-fill"
-              id="ringFill"
+              class="ring-fill" id="ringFill"
               cx="75" cy="75" r="64"
               fill="none" stroke-width="5"
               stroke-dasharray="402.12" stroke-dashoffset="0"
@@ -569,11 +539,18 @@
 
       <!-- Footer -->
       <footer>
-        <div>&copy; <span id="tahun"></span> screentimer</div>
-        <div class="src">
-          <i class="fa-solid fa-circle-info"></i> Sumber: AOA &amp; ScienceDirect
+        <div class="footer-top">
+          <div>&copy; <span id="tahun"></span> screentimer</div>
+          <div class="src">
+            <i class="fa-solid fa-circle-info"></i> Sumber: AOA &amp; ScienceDirect
+          </div>
+        </div>
+        <div class="footer-notif hidden" id="footerNotif">
+          <i class="fa-solid fa-bell"></i>
+          Izinkan notifikasi browser agar pengingat timer kamu aktif &mdash; klik di sini
         </div>
       </footer>
+
     </div>
 
     <!-- Toast notif -->
@@ -590,18 +567,11 @@
 
       const MODE = {
         kerja: {
-          label: "Kerja",
-          badge: "kerja",
-          card: "",
-          ring: "",
-          icon: "fa-solid fa-laptop-code",
-          instruksi: null,
+          label: "Kerja", badge: "kerja", card: "", ring: "",
+          icon: "fa-solid fa-laptop-code", instruksi: null,
         },
         mikro: {
-          label: "Istirahat Mikro",
-          badge: "mikro",
-          card: "mikro",
-          ring: "mikro",
+          label: "Istirahat Mikro", badge: "mikro", card: "mikro", ring: "mikro",
           icon: "fa-solid fa-eye",
           instruksi: {
             cls: "mikro",
@@ -614,10 +584,7 @@
           },
         },
         istirahat: {
-          label: "Istirahat Panjang",
-          badge: "istirahat",
-          card: "istirahat",
-          ring: "istirahat",
+          label: "Istirahat Panjang", badge: "istirahat", card: "istirahat", ring: "istirahat",
           icon: "fa-solid fa-mug-hot",
           instruksi: {
             cls: "istirahat",
@@ -632,13 +599,8 @@
       };
 
       const defaultState = {
-        mode: "kerja",
-        sisa: 30 * 60,
-        total: 30 * 60,
-        menitKerja: 30,
-        sesiBlok: 0,
-        totalSesi: 0,
-        totalBreak: 0,
+        mode: "kerja", sisa: 30 * 60, total: 30 * 60,
+        menitKerja: 30, sesiBlok: 0, totalSesi: 0, totalBreak: 0,
       };
 
       function loadState() {
@@ -648,41 +610,27 @@
           const saved = JSON.parse(raw);
           if (!saved.mode || !MODE[saved.mode]) return { ...defaultState };
           return { ...defaultState, ...saved };
-        } catch {
-          return { ...defaultState };
-        }
+        } catch { return { ...defaultState }; }
       }
 
       function saveState() {
         try {
-          localStorage.setItem(
-            LS_KEY,
-            JSON.stringify({
-              mode: S.mode,
-              sisa: S.sisa,
-              total: S.total,
-              menitKerja: S.menitKerja,
-              sesiBlok: S.sesiBlok,
-              totalSesi: S.totalSesi,
-              totalBreak: S.totalBreak,
-            }),
-          );
+          localStorage.setItem(LS_KEY, JSON.stringify({
+            mode: S.mode, sisa: S.sisa, total: S.total,
+            menitKerja: S.menitKerja, sesiBlok: S.sesiBlok,
+            totalSesi: S.totalSesi, totalBreak: S.totalBreak,
+          }));
         } catch {}
       }
 
       const S = { ...loadState(), running: false, tick: null };
 
       function fmt(sec) {
-        return (
-          String(Math.floor(sec / 60)).padStart(2, "0") +
-          ":" +
-          String(sec % 60).padStart(2, "0")
-        );
+        return String(Math.floor(sec / 60)).padStart(2, "0") + ":" + String(sec % 60).padStart(2, "0");
       }
 
       function updateRing(sisa, total) {
-        document.getElementById("ringFill").style.strokeDashoffset =
-          CIRC * (1 - sisa / total);
+        document.getElementById("ringFill").style.strokeDashoffset = CIRC * (1 - sisa / total);
       }
 
       function renderInstruksi(m) {
@@ -700,7 +648,6 @@
 
       function renderState() {
         const m = MODE[S.mode];
-
         document.getElementById("timerCard").className = "timer-card " + m.card;
 
         const rf = document.getElementById("ringFill");
@@ -713,9 +660,7 @@
         document.getElementById("ringSub").textContent = "tersisa";
 
         renderInstruksi(m);
-
         document.getElementById("selectInterval").value = String(S.menitKerja);
-
         document.getElementById("statFokus").textContent = S.menitKerja * S.totalSesi + "m";
         document.getElementById("statBreak").textContent = S.totalBreak;
         document.getElementById("statSesi").textContent = S.totalSesi;
@@ -727,10 +672,7 @@
       }
 
       function setMode(mode, dur) {
-        S.mode = mode;
-        S.total = dur;
-        S.sisa = dur;
-        S.running = false;
+        S.mode = mode; S.total = dur; S.sisa = dur; S.running = false;
         renderState();
         saveState();
       }
@@ -738,15 +680,11 @@
       function gantiInterval() {
         const v = parseInt(document.getElementById("selectInterval").value);
         S.menitKerja = v;
-        if (S.mode === "kerja" && !S.running) {
-          setMode("kerja", v * 60);
-        }
+        if (S.mode === "kerja" && !S.running) setMode("kerja", v * 60);
         saveState();
       }
 
-      function toggleTimer() {
-        S.running ? jeda() : mulai();
-      }
+      function toggleTimer() { S.running ? jeda() : mulai(); }
 
       function setSelectDisabled(val) {
         document.getElementById("selectInterval").disabled = val;
@@ -761,7 +699,7 @@
           document.getElementById("badgeTeks").textContent = "Istirahat";
           icon.className = "fa-solid fa-clock";
         } else {
-          b.className = "badge " + m.badge;
+          b.className = "badge " + m.badge + (S.running ? " running" : "");
           document.getElementById("badgeTeks").textContent = m.label;
           icon.className = m.icon;
         }
@@ -775,17 +713,15 @@
 
         const startTime = Date.now();
         const startSisa = S.sisa;
-        let lastSisa = startSisa + 1; // pastikan tick pertama selalu diproses
+        let lastSisa = startSisa + 1;
 
         function tick() {
           const elapsed = Math.floor((Date.now() - startTime) / 1000);
           S.sisa = Math.max(0, startSisa - elapsed);
-
-          if (S.sisa === lastSisa && S.sisa > 0) return; // belum berubah
+          if (S.sisa === lastSisa && S.sisa > 0) return;
           lastSisa = S.sisa;
 
           updateRing(S.sisa, S.total);
-
           const rt = document.getElementById("ringTime");
           rt.textContent = fmt(S.sisa);
 
@@ -809,8 +745,8 @@
           }
         }
 
-        tick(); // langsung update tanpa menunggu interval pertama
-        S.tick = setInterval(tick, 250); // cek 4x/detik untuk presisi
+        tick();
+        S.tick = setInterval(tick, 250);
       }
 
       function jeda() {
@@ -824,9 +760,7 @@
 
       function selesai() {
         if (S.mode === "kerja") {
-          S.sesiBlok++;
-          S.totalSesi++;
-          S.totalBreak++;
+          S.sesiBlok++; S.totalSesi++; S.totalBreak++;
           document.getElementById("statSesi").textContent = S.totalSesi;
           document.getElementById("statBreak").textContent = S.totalBreak;
           document.getElementById("statFokus").textContent = S.menitKerja * S.totalSesi + "m";
@@ -855,7 +789,7 @@
 
       function autoMulai() {
         document.getElementById("btnMulai").innerHTML = '<i class="fa-solid fa-pause"></i> Jeda';
-        mulai(); // langsung, tanpa delay
+        mulai();
       }
 
       function resetTimer() {
@@ -885,13 +819,17 @@
         if (Notification.permission === "granted")
           new Notification(judul, { body: isi });
         clearTimeout(toastTmr);
-        toastTmr = setTimeout(() => {
-          el.className = `toast ${cls}`;
-        }, 5000);
+        toastTmr = setTimeout(() => { el.className = `toast ${cls}`; }, 5000);
       }
 
-      if (Notification.permission === "default")
-        Notification.requestPermission();
+      function updateNotifBanner() {
+        const el = document.getElementById("footerNotif");
+        el.classList.toggle("hidden", Notification.permission === "granted");
+      }
+      document.getElementById("footerNotif").addEventListener("click", () => {
+        Notification.requestPermission().then(updateNotifBanner);
+      });
+      updateNotifBanner();
 
       renderState();
     </script>
