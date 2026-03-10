@@ -16,8 +16,8 @@ function StatCard({ label, value, Icon }: StatCardProps) {
       <div className="text-[1.43rem] sm:text-[1.9rem] font-bold text-content tracking-[-0.02em]">
         {value}
       </div>
-      <div className="mt-0.75 flex items-center justify-center gap-1 text-[0.58rem] sm:text-[0.77rem] font-medium tracking-[0.08em] uppercase text-muted">
-        <Icon className="w-[0.54rem] h-[0.54rem] sm:w-[0.68rem] sm:h-[0.68rem] opacity-70" />
+      <div className="mt-0.75 flex items-center justify-center gap-1.5 text-[0.58rem] sm:text-[0.77rem] font-medium tracking-[0.08em] uppercase text-muted">
+        <Icon className="w-3.5 h-3.5 sm:w-4 sm:h-4 opacity-70" />
         {label}
       </div>
     </div>
@@ -33,9 +33,9 @@ interface Props {
 export default function StatsRow({ fokusMenit, totalSesi, totalBreak }: Props) {
   return (
     <div className="flex gap-[0.6rem]">
-      <StatCard label="Fokus"     value={fokusMenit}          Icon={Hourglass} />
-      <StatCard label="Istirahat" value={String(totalBreak)}  Icon={Coffee}    />
-      <StatCard label="Sesi"      value={String(totalSesi)}   Icon={Layers}    />
+      <StatCard label="Fokus" value={fokusMenit} Icon={Hourglass} />
+      <StatCard label="Istirahat" value={String(totalBreak)} Icon={Coffee} />
+      <StatCard label="Sesi" value={String(totalSesi)} Icon={Layers} />
     </div>
   );
 }

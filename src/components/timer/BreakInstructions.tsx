@@ -21,7 +21,9 @@ export default function BreakInstructions({ instruksi }: Props) {
   };
 
   return (
-    <div className={`w-full rounded-lg border border-solid p-[0.75rem_0.9rem] sm:p-[0.9rem_1.1rem] mt-[0.9rem] sm:mt-[1.1rem] text-[0.75rem] sm:text-[1rem] leading-[1.75] ${border} ${icon}`}>
+    <div
+      className={`w-full rounded-lg border border-solid p-[0.75rem_0.9rem] sm:p-[0.9rem_1.1rem] mt-[0.9rem] sm:mt-[1.1rem] text-[0.75rem] sm:text-[1rem] leading-[1.75] ${border} ${icon}`}
+    >
       <div className="flex items-center gap-1.5 text-[0.63rem] sm:text-[0.82rem] font-semibold tracking-widest uppercase opacity-65 mb-1.5">
         {judul}
       </div>
@@ -34,13 +36,10 @@ export default function BreakInstructions({ instruksi }: Props) {
             >
           )[item.icon];
           return (
-            <div
-              key={i}
-              className="flex items-center gap-2 py-px"
-            >
+            <div key={i} className="flex items-center gap-2 py-px">
               {IconComp && (
-                <div className="shrink-0 w-3.25 sm:w-4 flex items-center justify-center opacity-80 text-[0.7rem] sm:text-[0.88rem]">
-                  <IconComp size={14} className="opacity-80" />
+                <div className="shrink-0 w-5 sm:w-6 flex items-center justify-center opacity-80 text-[0.8rem] sm:text-[1rem]">
+                  <IconComp size={18} className="opacity-80" />
                 </div>
               )}
               <span>{item.teks}</span>

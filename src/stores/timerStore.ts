@@ -1,6 +1,7 @@
 import { create } from "zustand";
 import { persist } from "zustand/middleware";
-import { DEFAULT_STATE, LS_KEY } from "@/lib/constants";
+import { DEFAULT_STATE, LS_KEY, MODE } from "@/lib/constants";
+import { playBong } from "@/lib/sound";
 import type { TimerMode, TimerState, ToastPayload } from "@/types/timer";
 
 // ─── Store shape ─────────────────────────────────────────────────
@@ -11,7 +12,6 @@ interface TimerStore extends TimerState {
   // Internal tick state — NOT persisted
   _startTime: number | null;
   _startSisa: number | null;
-  _lastSisa: number | null;
   _tickHandle: ReturnType<typeof setInterval> | null;
 
   // Side-effect signals — consumed oleh TimerPage, lalu di-clear
@@ -19,7 +19,7 @@ interface TimerStore extends TimerState {
   didFinish: boolean;
 
   // Actions
-  mulai: () => void;
+  mulai: (isAuto?: boolean) => void;
   jeda: () => void;
   reset: () => void;
   gantiInterval: (menit: number) => void;
@@ -44,7 +44,6 @@ export const useTimerStore = create<TimerStore>()(
       // Internal
       _startTime: null,
       _startSisa: null,
-      _lastSisa: null,
       _tickHandle: null,
 
       // Side effects
@@ -53,15 +52,19 @@ export const useTimerStore = create<TimerStore>()(
 
       // ── Actions ─────────────────────────────────────────────
 
-      mulai() {
-        const { running, sisa } = get();
+      mulai(isAuto = false) {
+        const { running, sisa, total, mode } = get();
         if (running) return;
+
+        if (sisa === total && !isAuto) {
+          playBong();
+        }
 
         set({
           running: true,
           _startTime: Date.now(),
           _startSisa: sisa,
-          _lastSisa: sisa + 1, // force first tick to process
+          ...(mode === "kerja" && { activeInstruksi: null }),
         });
 
         get()._tick(); // immediate update — no initial delay
@@ -71,9 +74,16 @@ export const useTimerStore = create<TimerStore>()(
       },
 
       jeda() {
-        const { _tickHandle } = get();
+        const { _tickHandle, _startTime, _startSisa } = get();
         if (_tickHandle) clearInterval(_tickHandle);
-        set({ running: false, _tickHandle: null });
+
+        let exactSisa = get().sisa;
+        if (_startTime !== null && _startSisa !== null) {
+          const elapsed = (Date.now() - _startTime) / 1000;
+          exactSisa = Math.max(0, _startSisa - elapsed);
+        }
+
+        set({ running: false, _tickHandle: null, sisa: exactSisa });
       },
 
       reset() {
@@ -85,7 +95,6 @@ export const useTimerStore = create<TimerStore>()(
           _tickHandle: null,
           _startTime: null,
           _startSisa: null,
-          _lastSisa: null,
           pendingToast: null,
           didFinish: false,
         });
@@ -95,7 +104,7 @@ export const useTimerStore = create<TimerStore>()(
         const { mode, running } = get();
         set({ menitKerja: menit });
         if (mode === "kerja" && !running) {
-          get().setMode("kerja", menit * 60);
+          get().setMode("kerja", menit === 0 ? 5 : menit * 60);
         }
       },
 
@@ -106,11 +115,11 @@ export const useTimerStore = create<TimerStore>()(
           mode,
           total: dur,
           sisa: dur,
+          activeInstruksi: MODE[mode]?.instruksi ?? null,
           running: false,
           _tickHandle: null,
           _startTime: null,
           _startSisa: null,
-          _lastSisa: null,
         });
       },
 
@@ -121,15 +130,13 @@ export const useTimerStore = create<TimerStore>()(
       // ── Internal ────────────────────────────────────────────
 
       _tick() {
-        const { _startTime, _startSisa, _lastSisa } = get();
+        const { _startTime, _startSisa } = get();
         if (_startTime === null || _startSisa === null) return;
 
-        const elapsed = Math.floor((Date.now() - _startTime) / 1000);
+        const elapsed = (Date.now() - _startTime) / 1000;
         const newSisa = Math.max(0, _startSisa - elapsed);
 
-        // Skip if nothing changed
-        if (newSisa === _lastSisa && newSisa > 0) return;
-        set({ sisa: newSisa, _lastSisa: newSisa });
+        set({ sisa: newSisa });
 
         if (newSisa <= 0) {
           const { _tickHandle } = get();
@@ -160,7 +167,20 @@ export const useTimerStore = create<TimerStore>()(
                 variant: "warning",
               },
             });
-            get().setMode("istirahat", 15 * 60);
+            // Tidak menggunakan get().setMode("kerja", ...) untuk mempertahankan activeInstruksi dari istirahat
+            const dur = get().menitKerja === 0 ? 5 : get().menitKerja * 60;
+            const { _tickHandle } = get();
+            if (_tickHandle) clearInterval(_tickHandle);
+            set({
+              mode: "kerja",
+              total: dur,
+              sisa: dur,
+              activeInstruksi: MODE["istirahat"]?.instruksi ?? null,
+              running: false,
+              _tickHandle: null,
+              _startTime: null,
+              _startSisa: null,
+            });
           } else {
             set({
               pendingToast: {
@@ -169,10 +189,9 @@ export const useTimerStore = create<TimerStore>()(
                 variant: "default",
               },
             });
-            get().setMode("mikro", 20);
+            get().setMode("mikro", get().menitKerja === 0 ? 2 : 20);
+            get()._autoMulai();
           }
-          get()._autoMulai();
-
         } else if (mode === "mikro") {
           set({
             pendingToast: {
@@ -182,8 +201,8 @@ export const useTimerStore = create<TimerStore>()(
             },
           });
           const { menitKerja } = get();
-          get().setMode("kerja", menitKerja * 60);
-
+          get().setMode("kerja", menitKerja === 0 ? 5 : menitKerja * 60);
+          get()._autoMulai();
         } else if (mode === "istirahat") {
           set({
             pendingToast: {
@@ -193,13 +212,14 @@ export const useTimerStore = create<TimerStore>()(
             },
           });
           const { menitKerja } = get();
-          get().setMode("kerja", menitKerja * 60);
+          get().setMode("kerja", menitKerja === 0 ? 5 : menitKerja * 60);
+          get()._autoMulai();
         }
       },
 
       _autoMulai() {
-        // Langsung start, tidak ada delay
-        get().mulai();
+        // Langsung start, as as auto
+        get().mulai(true);
       },
     }),
 
@@ -214,7 +234,8 @@ export const useTimerStore = create<TimerStore>()(
         sesiBlok: state.sesiBlok,
         totalSesi: state.totalSesi,
         totalBreak: state.totalBreak,
+        activeInstruksi: state.activeInstruksi,
       }),
-    }
-  )
+    },
+  ),
 );

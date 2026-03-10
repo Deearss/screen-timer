@@ -2,10 +2,11 @@ import { CIRC } from "./constants";
 
 /** Format detik ke "MM:SS" */
 export function fmt(sec: number): string {
+  const rounded = Math.ceil(sec);
   return (
-    String(Math.floor(sec / 60)).padStart(2, "0") +
+    String(Math.floor(rounded / 60)).padStart(2, "0") +
     ":" +
-    String(sec % 60).padStart(2, "0")
+    String(rounded % 60).padStart(2, "0")
   );
 }
 
@@ -26,7 +27,7 @@ export function calcFokusMenit(
   total: number,
   sisa: number,
   mode: string,
-  running: boolean
+  running: boolean,
 ): string {
   if (mode === "kerja" && running) {
     return menitKerja * totalSesi + Math.floor((total - sisa) / 60) + "m";

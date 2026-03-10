@@ -5,9 +5,8 @@ import { Info } from "lucide-react";
 import { useTimerStore } from "@/stores/timerStore";
 import { useNotification } from "@/hooks/useNotification";
 import { useKeyboardShortcuts } from "@/hooks/useKeyboardShortcuts";
-import { playDing } from "@/lib/sound";
+import { playBong } from "@/lib/sound";
 import { calcFokusMenit } from "@/lib/timer-utils";
-import { MODE } from "@/lib/constants";
 import type { ToastPayload } from "@/types/timer";
 
 import TimerHeader from "./TimerHeader";
@@ -35,6 +34,7 @@ export default function TimerPage() {
     reset,
     gantiInterval,
     clearSideEffects,
+    activeInstruksi,
   } = useTimerStore();
 
   const { permission, request, send } = useNotification();
@@ -60,7 +60,7 @@ export default function TimerPage() {
   // Handle timer completion: sound + notification + toast
   useEffect(() => {
     if (!didFinish) return;
-    playDing();
+    playBong();
     if (pendingToast) {
       send(pendingToast.title, pendingToast.body);
       setToast({ ...pendingToast, key: Date.now() });
@@ -75,7 +75,7 @@ export default function TimerPage() {
     return () => clearTimeout(t);
   }, [toast]);
 
-  const instruksi = MODE[mode]?.instruksi ?? null;
+  const instruksi = activeInstruksi;
   const fokusMenit = calcFokusMenit(
     menitKerja,
     totalSesi,

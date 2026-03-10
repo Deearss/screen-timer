@@ -28,7 +28,7 @@ export default function IntervalSelect({ value, onChange, disabled }: Props) {
       >
         {PRESETS.map((p) => (
           <option key={p} value={p}>
-            {p} menit
+            {p === 0 ? "Testing" : `${p} menit`}
           </option>
         ))}
       </select>

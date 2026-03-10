@@ -21,12 +21,13 @@ export interface ModeConfig {
 
 export interface TimerState {
   mode: TimerMode;
-  sisa: number;   // detik tersisa
-  total: number;  // total durasi mode ini (detik)
+  sisa: number; // detik tersisa
+  total: number; // total durasi mode ini (detik)
   menitKerja: number;
-  sesiBlok: number;   // progress dalam 1 blok (0–3)
+  sesiBlok: number; // progress dalam 1 blok (0–3)
   totalSesi: number;
   totalBreak: number;
+  activeInstruksi: ModeInstruksi | null;
 }
 
 export interface ToastPayload {

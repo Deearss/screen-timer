@@ -5,8 +5,8 @@ import BreakInstructions from "./BreakInstructions";
 import type { TimerMode, ModeInstruksi } from "@/types/timer";
 
 const STRIP: Record<TimerMode, string> = {
-  kerja:     "bg-accent",
-  mikro:     "bg-rest",
+  kerja: "bg-accent",
+  mikro: "bg-rest",
   istirahat: "bg-warn",
 };
 
@@ -34,7 +34,7 @@ export default function TimerCard({
   // Override bg-surface and border to match plain card style in HTML
   return (
     <div
-      className={`relative overflow-hidden rounded-[6px] border bg-surface ${BORDER[mode]} flex flex-col items-center p-[1.4rem_1.2rem] sm:p-[1.8rem_1.6rem]`}
+      className={`relative overflow-hidden rounded-md border bg-surface ${BORDER[mode]} flex flex-col items-center p-[1.4rem_1.2rem] sm:p-[1.8rem_1.6rem]`}
     >
       {/* Top color strip */}
       <div
