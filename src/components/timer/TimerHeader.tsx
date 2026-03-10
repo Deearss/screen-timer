@@ -12,25 +12,24 @@ export default function TimerHeader({ sesiBlok }: Props) {
   return (
     <div className="flex items-start justify-between border-b border-bdr pb-[0.85rem]">
       {/* Logo */}
-      <div className="flex items-center gap-2">
-        <Eye size={14} className="text-accent" />
-        <span className="font-bold" style={{ fontSize: "1.1rem", letterSpacing: "-0.01em" }}>
-          <span className="text-accent">screen</span>
-          <span className="text-muted font-normal">timer</span>
+      <div className="flex items-center gap-1.75 text-[1.1rem] sm:text-[1.45rem] font-bold tracking-[-0.01em] text-accent">
+        <Eye className="size-[1.4rem] sm:size-[1.7rem] opacity-85" />
+        <span className="text-accent">
+          screen<span className="text-muted font-normal">timer</span>
         </span>
       </div>
 
-      {/* Session info — right side */}
-      <div className="flex flex-col items-end gap-1.5">
-        <span className="text-muted" style={{ fontSize: "0.66rem", letterSpacing: "0.03em" }}>
-          sesi <b className="text-accent font-bold">{sesiNum}</b> / 4 → istirahat panjang
-        </span>
-        <div className="flex items-center gap-1">
+      {/* Session info */}
+      <div className="flex flex-col items-end gap-1.25">
+        <div className="text-[0.66rem] sm:text-[0.87rem] text-muted tracking-[0.03em]">
+          sesi <b className="text-accent font-bold">{sesiNum}</b> / 4 &rarr;
+          istirahat panjang
+        </div>
+        <div className="flex gap-1">
           {Array.from({ length: 4 }).map((_, i) => (
             <div
               key={i}
-              style={{ width: 7, height: 7, borderRadius: 2 }}
-              className={`transition-colors duration-300 ${
+              className={`w-1.75 h-1.75 sm:w-2.25 sm:h-2.25 rounded-xs transition-colors duration-300 ${
                 i < sesiBlok ? "bg-accent" : "bg-subtle"
               }`}
             />

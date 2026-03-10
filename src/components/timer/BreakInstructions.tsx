@@ -21,14 +21,11 @@ export default function BreakInstructions({ instruksi }: Props) {
   };
 
   return (
-    <div className={`w-full rounded-lg border p-3 ${border}`}>
-      <p
-        className="text-muted uppercase tracking-wider mb-2"
-        style={{ fontSize: "0.63rem" }}
-      >
+    <div className={`w-full rounded-lg border border-solid p-[0.75rem_0.9rem] sm:p-[0.9rem_1.1rem] mt-[0.9rem] sm:mt-[1.1rem] text-[0.75rem] sm:text-[1rem] leading-[1.75] ${border} ${icon}`}>
+      <div className="flex items-center gap-1.5 text-[0.63rem] sm:text-[0.82rem] font-semibold tracking-widest uppercase opacity-65 mb-1.5">
         {judul}
-      </p>
-      <ul className="flex flex-col gap-1.5">
+      </div>
+      <div>
         {isi.map((item, i) => {
           const IconComp = (
             LucideIcons as unknown as Record<
@@ -37,19 +34,20 @@ export default function BreakInstructions({ instruksi }: Props) {
             >
           )[item.icon];
           return (
-            <li
+            <div
               key={i}
-              className="flex items-start gap-2 text-content"
-              style={{ fontSize: "0.75rem" }}
+              className="flex items-center gap-2 py-px"
             >
               {IconComp && (
-                <IconComp size={11} className={`shrink-0 mt-0.5 ${icon}`} />
+                <div className="shrink-0 w-3.25 sm:w-4 flex items-center justify-center opacity-80 text-[0.7rem] sm:text-[0.88rem]">
+                  <IconComp size={14} className="opacity-80" />
+                </div>
               )}
               <span>{item.teks}</span>
-            </li>
+            </div>
           );
         })}
-      </ul>
+      </div>
     </div>
   );
 }

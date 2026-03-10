@@ -86,7 +86,7 @@ export default function TimerPage() {
   );
 
   return (
-    <div className="w-full max-w-110 flex flex-col gap-4">
+    <>
       <TimerHeader sesiBlok={sesiBlok} />
       {/* Badge + Interval — same row */}
       <div className="flex items-center justify-between">
@@ -118,40 +118,31 @@ export default function TimerPage() {
       />
 
       {/* Footer */}
-      <footer
-        className="flex items-center justify-between border-t border-bdr pt-[0.7rem] gap-2"
-        style={{ fontSize: "0.63rem" }}
-      >
-        <span className="text-muted">
-          © {new Date().getFullYear()} screentimer
-        </span>
-        <span className="text-muted opacity-55 flex items-center gap-1" style={{ fontSize: "0.59rem" }}>
-          <Info size={9} />
-          Sumber: AOA &amp; ScienceDirect
-        </span>
+      <footer className="flex flex-col gap-[0.55rem] border-t border-bdr pt-[0.7rem] pb-8 text-[0.63rem] text-muted sm:text-[0.82rem]">
+        <div className="flex items-center justify-between">
+          <div>© {new Date().getFullYear()} screentimer</div>
+          <div className="flex items-center gap-1.25 text-[0.59rem] opacity-55 sm:text-[0.78rem]">
+            <Info size={10} />
+            Sumber: AOA &amp; ScienceDirect
+          </div>
+        </div>
       </footer>
 
       {/* Toast notification */}
       {toast && (
         <div
           key={toast.key}
-          className="fixed bottom-14 left-1/2 -translate-x-1/2 w-full max-w-sm px-4 pointer-events-none z-50"
+          className={`fixed top-[1.2rem] right-[1.2rem] max-w-57.5 sm:max-w-65 p-[0.8rem_1rem] rounded-[5px] border z-999 leading-relaxed transition-all duration-250 ease-in-out ${
+            toast.variant === "warning"
+              ? "bg-warn-dim border-warn/40 text-warn"
+              : "bg-surface border-accent-mid text-accent"
+          }`}
           role="alert"
         >
-          <div
-            className={`rounded border p-3 shadow-2xl ${
-              toast.variant === "warning"
-                ? "bg-warn/10 border-warn/40 text-warn"
-                : "bg-surface border-bdr text-content"
-            }`}
-          >
-            <p className="font-semibold" style={{ fontSize: "0.74rem" }}>
-              {toast.title}
-            </p>
-            <p className="text-muted mt-0.5" style={{ fontSize: "0.63rem" }}>
-              {toast.body}
-            </p>
+          <div className="font-bold mb-0.5 text-[0.74rem] sm:text-[0.96rem]">
+            {toast.title}
           </div>
+          <div className="text-[0.74rem] sm:text-[0.96rem]">{toast.body}</div>
         </div>
       )}
 
@@ -159,6 +150,6 @@ export default function TimerPage() {
       <div className="fixed bottom-0 left-0 right-0">
         <NotifBanner permission={permission} onRequest={request} />
       </div>
-    </div>
+    </>
   );
 }
