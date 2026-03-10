@@ -24,7 +24,7 @@ export default function BreakInstructions({ instruksi }: Props) {
     <div className={`w-full rounded-lg border p-3 ${border}`}>
       <p
         className="text-muted uppercase tracking-wider mb-2"
-        style={{ fontSize: "0.45rem" }}
+        style={{ fontSize: "0.63rem" }}
       >
         {judul}
       </p>
@@ -40,7 +40,7 @@ export default function BreakInstructions({ instruksi }: Props) {
             <li
               key={i}
               className="flex items-start gap-2 text-content"
-              style={{ fontSize: "0.58rem" }}
+              style={{ fontSize: "0.75rem" }}
             >
               {IconComp && (
                 <IconComp size={11} className={`shrink-0 mt-0.5 ${icon}`} />

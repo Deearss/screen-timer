@@ -30,7 +30,7 @@ export default function TimerCard({ sisa, total, mode, instruksi, ringSize }: Pr
       {/* Top color strip */}
       <div className={`h-0.5 w-full ${STRIP[mode]}`} />
 
-      <div className="flex flex-col items-center gap-5 px-6 py-8">
+      <div className="flex flex-col items-center gap-4 px-[1.2rem] py-[1.4rem]">
         <ProgressRing sisa={sisa} total={total} mode={mode} size={ringSize} />
         {instruksi && <BreakInstructions instruksi={instruksi} />}
       </div>

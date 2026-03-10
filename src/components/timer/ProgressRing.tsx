@@ -62,7 +62,7 @@ export default function ProgressRing({ sisa, total, mode, size = 150 }: Props) {
           strokeLinecap="round"
           strokeDasharray={CIRC}
           strokeDashoffset={offset}
-          className={`${ringClass} transition-[stroke-dashoffset] duration-[250ms] linear`}
+          className={`${ringClass} transition-[stroke-dashoffset] duration-250 linear`}
         />
       </svg>
 
@@ -74,13 +74,13 @@ export default function ProgressRing({ sisa, total, mode, size = 150 }: Props) {
         <span
           className={`font-bold leading-none text-center w-full whitespace-nowrap overflow-hidden
             ${timeClass}`}
-          style={{ fontSize: size === 150 ? "1.5rem" : "2rem" }}
+          style={{ fontSize: size === 150 ? "1.82rem" : "2rem" }}
         >
           {fmt(sisa)}
         </span>
         <span
           className="text-muted uppercase tracking-widest"
-          style={{ fontSize: "0.5rem" }}
+          style={{ fontSize: "0.57rem" }}
         >
           tersisa
         </span>

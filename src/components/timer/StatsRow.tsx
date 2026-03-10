@@ -12,11 +12,11 @@ interface StatCardProps {
 
 function StatCard({ label, value, Icon }: StatCardProps) {
   return (
-    <div className="flex-1 flex flex-col items-center gap-1 bg-surface rounded border border-bdr py-[1rem]">
-      <span className="text-content font-bold" style={{ fontSize: "0.95rem", letterSpacing: "-0.02em" }}>
+    <div className="flex-1 flex flex-col items-center gap-1 bg-surface rounded border border-bdr py-[0.7rem] px-2">
+      <span className="text-content font-bold" style={{ fontSize: "1.43rem", letterSpacing: "-0.02em" }}>
         {value}
       </span>
-      <span className="text-muted uppercase tracking-wider flex items-center gap-1" style={{ fontSize: "0.48rem" }}>
+      <span className="text-muted uppercase tracking-wider flex items-center gap-1" style={{ fontSize: "0.58rem" }}>
         <Icon size={9} style={{ opacity: 0.7 }} />
         {label}
       </span>

@@ -1,6 +1,7 @@
 "use client";
 
 import { useEffect, useState } from "react";
+import { Info } from "lucide-react";
 import { useTimerStore } from "@/stores/timerStore";
 import { useNotification } from "@/hooks/useNotification";
 import { useKeyboardShortcuts } from "@/hooks/useKeyboardShortcuts";
@@ -19,16 +20,29 @@ import NotifBanner from "@/components/shared/NotifBanner";
 
 export default function TimerPage() {
   const {
-    mode, sisa, total, menitKerja,
-    sesiBlok, totalSesi, totalBreak,
-    running, pendingToast, didFinish,
-    mulai, jeda, reset, gantiInterval, clearSideEffects,
+    mode,
+    sisa,
+    total,
+    menitKerja,
+    sesiBlok,
+    totalSesi,
+    totalBreak,
+    running,
+    pendingToast,
+    didFinish,
+    mulai,
+    jeda,
+    reset,
+    gantiInterval,
+    clearSideEffects,
   } = useTimerStore();
 
   const { permission, request, send } = useNotification();
 
   // Toast display state
-  const [toast, setToast] = useState<(ToastPayload & { key: number }) | null>(null);
+  const [toast, setToast] = useState<(ToastPayload & { key: number }) | null>(
+    null,
+  );
 
   // Responsive ring size (150px mobile, 200px sm+)
   const [ringSize, setRingSize] = useState(150);
@@ -62,10 +76,17 @@ export default function TimerPage() {
   }, [toast]);
 
   const instruksi = MODE[mode]?.instruksi ?? null;
-  const fokusMenit = calcFokusMenit(menitKerja, totalSesi, total, sisa, mode, running);
+  const fokusMenit = calcFokusMenit(
+    menitKerja,
+    totalSesi,
+    total,
+    sisa,
+    mode,
+    running,
+  );
 
   return (
-    <div className="w-full max-w-[440px] flex flex-col gap-[1.1rem]">
+    <div className="w-full max-w-110 flex flex-col gap-4">
       <TimerHeader sesiBlok={sesiBlok} />
       {/* Badge + Interval — same row */}
       <div className="flex items-center justify-between">
@@ -97,11 +118,15 @@ export default function TimerPage() {
       />
 
       {/* Footer */}
-      <footer className="flex items-center justify-between border-t border-bdr pt-[0.7rem]"
-              style={{ fontSize: "0.52rem" }}>
-        <span className="text-muted">© {new Date().getFullYear()} screentimer</span>
-        <span className="text-muted opacity-60 flex items-center gap-1">
-          <span className="text-accent" style={{ fontSize: "0.4rem" }}>●</span>
+      <footer
+        className="flex items-center justify-between border-t border-bdr pt-[0.7rem] gap-2"
+        style={{ fontSize: "0.63rem" }}
+      >
+        <span className="text-muted">
+          © {new Date().getFullYear()} screentimer
+        </span>
+        <span className="text-muted opacity-55 flex items-center gap-1" style={{ fontSize: "0.59rem" }}>
+          <Info size={9} />
           Sumber: AOA &amp; ScienceDirect
         </span>
       </footer>
@@ -120,10 +145,10 @@ export default function TimerPage() {
                 : "bg-surface border-bdr text-content"
             }`}
           >
-            <p className="font-semibold" style={{ fontSize: "0.62rem" }}>
+            <p className="font-semibold" style={{ fontSize: "0.74rem" }}>
               {toast.title}
             </p>
-            <p className="text-muted mt-0.5" style={{ fontSize: "0.52rem" }}>
+            <p className="text-muted mt-0.5" style={{ fontSize: "0.63rem" }}>
               {toast.body}
             </p>
           </div>
