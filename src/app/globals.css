@@ -1,0 +1,99 @@
+@import "tailwindcss";
+
+/* ─── Design tokens ───────────────────────────────────────────── */
+@theme {
+  /* Font */
+  --font-sans: var(--font-inter);
+
+  /* Breakpoints (sesuai design spec) */
+  --breakpoint-sm: 601px;
+  --breakpoint-md: 861px;
+
+  /* Colors — auto-generates bg-*, text-*, border-* utilities */
+  --color-bg: #1c1b16;
+  --color-surface: #242318;
+  --color-bdr: #2e2d22;
+  --color-subtle: #3a3929;
+  --color-accent: #d97757;
+  --color-rest: #74b9ff;
+  --color-warn: #f0a04b;
+  --color-danger: #e05c5c;
+  --color-content: #e8e4d8;
+  --color-muted: #6b6756;
+}
+
+/* ─── Font scale: 1rem = 24px desktop, 20.8px mobile ─────────── */
+html {
+  font-size: 24px;
+}
+
+@media (max-width: 600px) {
+  html {
+    font-size: 20.8px;
+  }
+}
+
+/* ─── Base reset ──────────────────────────────────────────────── */
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  background-color: var(--color-bg);
+  color: var(--color-content);
+  min-height: 100svh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 1.5rem 1rem;
+  -webkit-font-smoothing: antialiased;
+}
+
+/* ─── Keyframes ───────────────────────────────────────────────── */
+@keyframes kerja-pulse {
+  0%,
+  100% {
+    box-shadow: 0 0 0 0 rgba(217, 119, 87, 0.55);
+  }
+  60% {
+    box-shadow: 0 0 0 8px rgba(217, 119, 87, 0);
+  }
+}
+
+@keyframes mikro-pulse {
+  0%,
+  100% {
+    box-shadow: 0 0 0 0 rgba(116, 185, 255, 0.55);
+  }
+  60% {
+    box-shadow: 0 0 0 8px rgba(116, 185, 255, 0);
+  }
+}
+
+@keyframes urg-blink {
+  0%,
+  100% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0.5;
+  }
+}
+
+/* ─── Custom utilities ────────────────────────────────────────── */
+@utility animate-kerja-pulse {
+  animation: kerja-pulse 2s ease-out infinite;
+}
+
+@utility animate-mikro-pulse {
+  animation: mikro-pulse 2s ease-out infinite;
+}
+
+@utility animate-urg-blink {
+  animation: urg-blink 0.7s ease-in-out infinite;
+}
