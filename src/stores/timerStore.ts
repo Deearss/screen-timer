@@ -1,13 +1,14 @@
 import { create } from "zustand";
 import { persist } from "zustand/middleware";
 import { DEFAULT_STATE, LS_KEY, MODE } from "@/lib/constants";
-import { playBong } from "@/lib/sound";
+import { playBong, setVolume } from "@/lib/sound";
 import type { TimerMode, TimerState, ToastPayload } from "@/types/timer";
 
 // ─── Store shape ─────────────────────────────────────────────────
 
 interface TimerStore extends TimerState {
   running: boolean;
+  volume: number; // 0.0 – 1.0
 
   // Internal tick state — NOT persisted
   _startTime: number | null;
@@ -25,6 +26,7 @@ interface TimerStore extends TimerState {
   gantiInterval: (menit: number) => void;
   setMode: (mode: TimerMode, dur: number) => void;
   clearSideEffects: () => void;
+  aturVolume: (v: number) => void;
 
   // Internal
   _tick: () => void;
@@ -40,6 +42,7 @@ export const useTimerStore = create<TimerStore>()(
       // State
       ...DEFAULT_STATE,
       running: false,
+      volume: 1.0,
 
       // Internal
       _startTime: null,
@@ -125,6 +128,12 @@ export const useTimerStore = create<TimerStore>()(
 
       clearSideEffects() {
         set({ pendingToast: null, didFinish: false });
+      },
+
+      aturVolume(v: number) {
+        const clamped = Math.min(1, Math.max(0, v));
+        setVolume(clamped);
+        set({ volume: clamped });
       },
 
       // ── Internal ────────────────────────────────────────────
@@ -235,6 +244,7 @@ export const useTimerStore = create<TimerStore>()(
         totalSesi: state.totalSesi,
         totalBreak: state.totalBreak,
         activeInstruksi: state.activeInstruksi,
+        volume: state.volume,
       }),
     },
   ),

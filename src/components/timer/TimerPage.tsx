@@ -5,7 +5,7 @@ import { Info } from "lucide-react";
 import { useTimerStore } from "@/stores/timerStore";
 import { useNotification } from "@/hooks/useNotification";
 import { useKeyboardShortcuts } from "@/hooks/useKeyboardShortcuts";
-import { playBong } from "@/lib/sound";
+import { playBong, setVolume } from "@/lib/sound";
 import { calcFokusMenit } from "@/lib/timer-utils";
 import type { ToastPayload } from "@/types/timer";
 
@@ -29,12 +29,14 @@ export default function TimerPage() {
     running,
     pendingToast,
     didFinish,
+    volume,
     mulai,
     jeda,
     reset,
     gantiInterval,
     clearSideEffects,
     activeInstruksi,
+    aturVolume,
   } = useTimerStore();
 
   const { permission, request, send } = useNotification();
@@ -53,6 +55,11 @@ export default function TimerPage() {
     mq.addEventListener("change", update);
     return () => mq.removeEventListener("change", update);
   }, []);
+
+  // Sync persisted volume ke audio module saat pertama mount
+  useEffect(() => {
+    setVolume(volume);
+  }, []); // eslint-disable-line react-hooks/exhaustive-deps
 
   // Keyboard shortcuts (Space / R)
   useKeyboardShortcuts();
@@ -115,6 +122,8 @@ export default function TimerPage() {
         fokusMenit={fokusMenit}
         totalSesi={totalSesi}
         totalBreak={totalBreak}
+        volume={volume}
+        onVolumeChange={aturVolume}
       />
 
       {/* Footer */}
