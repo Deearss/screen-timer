@@ -20,7 +20,7 @@ export const MODE: Record<string, ModeConfig> = {
     ring: "mikro",
     instruksi: {
       cls: "mikro",
-      judul: "Istirahat mikro — 20 detik",
+      judul: "Istirahat mikro — 1 menit",
       isi: [
         { icon: "Eye", teks: "Lihat sesuatu yang jauh (6m+)" },
         { icon: "DoorOpen", teks: "Boleh keluar sebentar" },

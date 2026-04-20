@@ -185,11 +185,11 @@ export const useTimerStore = create<TimerStore>()(
             set({
               pendingToast: {
                 title: "Istirahat mikro!",
-                body: "20 detik — lihat sesuatu jauh. Jangan buka HP.",
+                body: "1 menit — stretch, lihat sesuatu jauh. Jangan buka HP.",
                 variant: "default",
               },
             });
-            get().setMode("mikro", get().menitKerja === 0 ? 2 : 20);
+            get().setMode("mikro", get().menitKerja === 0 ? 6 : 60);
             get()._autoMulai();
           }
         } else if (mode === "mikro") {
