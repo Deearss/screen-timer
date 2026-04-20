@@ -1,6 +1,7 @@
 "use client";
 
-import { SlidersHorizontal } from "lucide-react";
+import { useEffect, useRef, useState } from "react";
+import { SlidersHorizontal, ChevronDown, Check } from "lucide-react";
 import { PRESETS } from "@/lib/constants";
 
 interface Props {
@@ -9,29 +10,95 @@ interface Props {
   disabled: boolean;
 }
 
+const LABEL = (p: number) => (p === 0 ? "Testing" : `${p} menit`);
+
 export default function IntervalSelect({ value, onChange, disabled }: Props) {
+  const [open, setOpen] = useState(false);
+  const rootRef = useRef<HTMLDivElement>(null);
+
+  // Tutup dropdown kalau klik di luar
+  useEffect(() => {
+    function onOutsideClick(e: MouseEvent) {
+      if (rootRef.current && !rootRef.current.contains(e.target as Node)) {
+        setOpen(false);
+      }
+    }
+    document.addEventListener("mousedown", onOutsideClick);
+    return () => document.removeEventListener("mousedown", onOutsideClick);
+  }, []);
+
+  function handleSelect(p: number) {
+    onChange(p);
+    setOpen(false);
+  }
+
   return (
     <div className="flex items-center gap-1.75">
       <label
-        htmlFor="interval-select"
-        className="text-muted flex items-center gap-1.25 text-[0.66rem] sm:text-[0.87rem]"
+        htmlFor="interval-trigger"
+        className="text-muted flex items-center gap-1.25 text-[0.66rem] sm:text-[0.87rem] cursor-default select-none"
       >
         <SlidersHorizontal className="w-[0.6rem] h-[0.6rem] sm:w-3 sm:h-3" />
         interval kerja
       </label>
-      <select
-        id="interval-select"
-        value={value}
-        onChange={(e) => onChange(Number(e.target.value))}
-        disabled={disabled}
-        className="bg-surface border border-bdr rounded-[3px] px-[0.45rem] sm:px-[0.55rem] py-[0.28rem] sm:py-[0.32rem] text-content text-[0.69rem] sm:text-[0.92rem] font-sans transition-colors duration-200 cursor-pointer outline-none focus:border-accent disabled:opacity-28 disabled:cursor-not-allowed"
-      >
-        {PRESETS.map((p) => (
-          <option key={p} value={p}>
-            {p === 0 ? "Testing" : `${p} menit`}
-          </option>
-        ))}
-      </select>
+
+      {/* Dropdown root */}
+      <div ref={rootRef} className="relative">
+        {/* Trigger */}
+        <button
+          id="interval-trigger"
+          type="button"
+          disabled={disabled}
+          onClick={() => setOpen((o) => !o)}
+          aria-haspopup="listbox"
+          aria-expanded={open}
+          className={`flex items-center gap-1.5 rounded-[5px] border border-bdr bg-surface px-[0.55rem] py-[0.3rem] sm:py-[0.35rem] text-content text-[0.69rem] sm:text-[0.92rem] font-sans whitespace-nowrap select-none transition-all duration-150 outline-none
+            focus-visible:border-accent focus-visible:ring-2 focus-visible:ring-accent/30
+            hover:border-muted hover:bg-subtle
+            disabled:opacity-30 disabled:cursor-not-allowed
+            ${open ? "border-accent ring-2 ring-accent/20" : ""}`}
+        >
+          {LABEL(value)}
+          <ChevronDown
+            className={`w-3 h-3 sm:w-3.5 sm:h-3.5 text-muted transition-transform duration-200 ${open ? "rotate-180" : ""}`}
+          />
+        </button>
+
+        {/* Popover */}
+        {open && (
+          <div
+            role="listbox"
+            aria-label="Pilih interval kerja"
+            className="absolute right-0 top-[calc(100%+6px)] z-50 min-w-[9rem] overflow-hidden rounded-[7px] border border-bdr bg-surface shadow-[0_8px_24px_rgba(0,0,0,0.45)] animate-in fade-in-0 zoom-in-95 slide-in-from-top-1 duration-100"
+          >
+            <div className="p-1">
+              {PRESETS.map((p) => {
+                const selected = p === value;
+                return (
+                  <button
+                    key={p}
+                    role="option"
+                    type="button"
+                    aria-selected={selected}
+                    onClick={() => handleSelect(p)}
+                    className={`flex w-full items-center gap-2 rounded-[4px] px-2 py-[0.35rem] sm:py-[0.4rem] text-left text-[0.69rem] sm:text-[0.88rem] transition-colors duration-100 outline-none
+                      ${selected
+                        ? "bg-accent/15 text-accent font-medium"
+                        : "text-content hover:bg-subtle"
+                      }`}
+                  >
+                    <Check
+                      className={`w-3 h-3 shrink-0 transition-opacity duration-100 ${selected ? "opacity-100 text-accent" : "opacity-0"}`}
+                    />
+                    {LABEL(p)}
+                  </button>
+                );
+              })}
+            </div>
+          </div>
+        )}
+      </div>
     </div>
   );
 }
+
