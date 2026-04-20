@@ -131,7 +131,7 @@ export const useTimerStore = create<TimerStore>()(
       },
 
       aturVolume(v: number) {
-        const clamped = Math.min(1, Math.max(0, v));
+        const clamped = Math.min(1.5, Math.max(0, v));
         setVolume(clamped);
         set({ volume: clamped });
       },

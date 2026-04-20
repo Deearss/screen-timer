@@ -1,6 +1,6 @@
 "use client";
 
-import { Hourglass, Coffee, Layers, Volume2 } from "lucide-react";
+import { Hourglass, Coffee, Layers, Volume2, Zap } from "lucide-react";
 import type { LucideProps } from "lucide-react";
 import type { ComponentType } from "react";
 import { playBong } from "@/lib/sound";
@@ -34,13 +34,14 @@ interface Props {
 }
 
 export default function StatsRow({ fokusMenit, totalSesi, totalBreak, volume, onVolumeChange }: Props) {
+  const isBoosted = volume > 1.0;
+  const pct = Math.round(volume * 100);
+
   function handleVolumeChange(e: React.ChangeEvent<HTMLInputElement>) {
-    const v = parseFloat(e.target.value);
-    onVolumeChange(v);
+    onVolumeChange(parseFloat(e.target.value));
   }
 
   function handleVolumeCommit() {
-    // Preview bong saat user selesai drag / klik slider
     playBong();
   }
 
@@ -53,26 +54,50 @@ export default function StatsRow({ fokusMenit, totalSesi, totalBreak, volume, on
       </div>
 
       {/* Volume control */}
-      <div className="flex items-center gap-2.5 px-[0.6rem] py-[0.55rem] bg-surface rounded-lg border border-solid">
-        <Volume2 className="w-3.5 h-3.5 sm:w-4 sm:h-4 text-muted shrink-0" />
+      <div
+        className={`flex items-center gap-2.5 px-[0.6rem] py-[0.55rem] bg-surface rounded-lg border border-solid transition-colors duration-300 ${
+          isBoosted ? "border-warn/50" : ""
+        }`}
+      >
+        {/* Icon: boost mode pakai Zap, normal pakai Volume2 */}
+        {isBoosted ? (
+          <Zap className="w-3.5 h-3.5 sm:w-4 sm:h-4 text-warn shrink-0 animate-urg-blink" />
+        ) : (
+          <Volume2 className="w-3.5 h-3.5 sm:w-4 sm:h-4 text-muted shrink-0" />
+        )}
+
         <input
           id="volume-slider"
           type="range"
           min="0"
-          max="1"
+          max="1.5"
           step="0.05"
           value={volume}
           onChange={handleVolumeChange}
           onMouseUp={handleVolumeCommit}
           onTouchEnd={handleVolumeCommit}
-          className="flex-1 h-1 appearance-none rounded-full bg-subtle accent-accent cursor-pointer"
+          className={`flex-1 h-1 appearance-none rounded-full cursor-pointer transition-colors duration-300 ${
+            isBoosted ? "accent-warn bg-warn/20" : "accent-accent bg-subtle"
+          }`}
           aria-label="Volume suara notifikasi"
         />
-        <span className="text-[0.6rem] sm:text-[0.75rem] text-muted w-7 text-right tabular-nums shrink-0">
-          {Math.round(volume * 100)}%
-        </span>
+
+        {/* Persentase + label BOOST */}
+        <div className="flex items-center gap-1 shrink-0">
+          <span
+            className={`text-[0.6rem] sm:text-[0.75rem] w-8 text-right tabular-nums transition-colors duration-300 ${
+              isBoosted ? "text-warn font-bold animate-urg-blink" : "text-muted"
+            }`}
+          >
+            {pct}%
+          </span>
+          {isBoosted && (
+            <span className="text-[0.5rem] sm:text-[0.6rem] font-bold tracking-wider uppercase text-warn/70 animate-urg-blink">
+              boost
+            </span>
+          )}
+        </div>
       </div>
     </div>
   );
 }
-
