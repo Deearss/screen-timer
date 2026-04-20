@@ -52,7 +52,7 @@ export default function IntervalSelect({ value, onChange, disabled }: Props) {
           onClick={() => setOpen((o) => !o)}
           aria-haspopup="listbox"
           aria-expanded={open}
-          className={`flex items-center gap-1.5 rounded-[5px] border border-bdr bg-surface px-[0.55rem] py-[0.3rem] sm:py-[0.35rem] text-content text-[0.69rem] sm:text-[0.92rem] font-sans whitespace-nowrap select-none transition-all duration-150 outline-none
+          className={`cursor-pointer flex items-center gap-3 rounded-[5px] border border-bdr bg-surface px-[0.65rem] py-[0.3rem] sm:py-[0.35rem] text-content text-[0.69rem] sm:text-[0.92rem] font-sans whitespace-nowrap select-none transition-all duration-150 outline-none
             focus-visible:border-accent focus-visible:ring-2 focus-visible:ring-accent/30
             hover:border-muted hover:bg-subtle
             disabled:opacity-30 disabled:cursor-not-allowed
@@ -69,9 +69,9 @@ export default function IntervalSelect({ value, onChange, disabled }: Props) {
           <div
             role="listbox"
             aria-label="Pilih interval kerja"
-            className="absolute right-0 top-[calc(100%+6px)] z-50 min-w-[9rem] overflow-hidden rounded-[7px] border border-bdr bg-surface shadow-[0_8px_24px_rgba(0,0,0,0.45)] animate-in fade-in-0 zoom-in-95 slide-in-from-top-1 duration-100"
+            className="absolute right-0 top-[calc(100%+6px)] z-50 min-w-36 overflow-hidden rounded-[7px] border border-bdr bg-surface shadow-[0_8px_24px_rgba(0,0,0,0.45)] animate-in fade-in-0 zoom-in-95 slide-in-from-top-1 duration-100"
           >
-            <div className="p-1">
+            <div className="p-1 flex flex-col gap-1">
               {PRESETS.map((p) => {
                 const selected = p === value;
                 return (
@@ -81,10 +81,11 @@ export default function IntervalSelect({ value, onChange, disabled }: Props) {
                     type="button"
                     aria-selected={selected}
                     onClick={() => handleSelect(p)}
-                    className={`flex w-full items-center gap-2 rounded-[4px] px-2 py-[0.35rem] sm:py-[0.4rem] text-left text-[0.69rem] sm:text-[0.88rem] transition-colors duration-100 outline-none
-                      ${selected
-                        ? "bg-accent/15 text-accent font-medium"
-                        : "text-content hover:bg-subtle"
+                    className={`cursor-pointer flex w-full items-center gap-2 rounded-sm px-2 py-[0.35rem] sm:py-[0.4rem] text-left text-[0.69rem] sm:text-[0.88rem] transition-colors duration-100 outline-none
+                      ${
+                        selected
+                          ? "bg-accent/15 text-accent font-medium"
+                          : "text-content hover:bg-subtle"
                       }`}
                   >
                     <Check
@@ -101,4 +102,3 @@ export default function IntervalSelect({ value, onChange, disabled }: Props) {
     </div>
   );
 }
-
